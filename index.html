@@ -526,6 +526,248 @@
             border: 1px solid #f5c6cb;
         }
 
+        /* ===== MINI GAME ===== */
+        #minigame {
+            background: linear-gradient(135deg, #f0f4ff, #e0e8f8);
+        }
+        .game-wrapper {
+            max-width: 650px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 10px 50px rgba(44, 62, 123, 0.1);
+            text-align: center;
+        }
+        .game-scene {
+            position: relative;
+            height: 180px;
+            background: linear-gradient(180deg, #e8f0fe 0%, #d4e4fc 40%, #8fbc8f 40%, #6b9e6b 100%);
+            border-radius: 16px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            padding: 0 40px 20px;
+        }
+        /* Pixel Groom */
+        .pixel-groom {
+            position: relative;
+            transition: all 0.5s ease;
+            z-index: 2;
+        }
+        .pixel-groom.win {
+            transform: translateX(120px);
+        }
+        .pixel-head {
+            width: 32px; height: 32px;
+            margin: 0 auto;
+            border-radius: 4px;
+            position: relative;
+        }
+        .pixel-head::after {
+            content: '';
+            position: absolute;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            top: 8px;
+        }
+        .g-head {
+            background: #f5cba7;
+            box-shadow: 8px 0 #f5cba7, 16px 0 #f5cba7;
+        }
+        .g-head::after {
+            left: 4px;
+            box-shadow: 16px 0 0 #2c3e7b;
+        }
+        .b-head {
+            background: #f0c27a;
+            box-shadow: 8px 0 #f0c27a, 16px 0 #f0c27a;
+        }
+        .b-head::after {
+            left: 4px;
+            box-shadow: 16px 0 0 #2c3e7b;
+        }
+        .b-head::before {
+            content: '';
+            position: absolute;
+            top: -8px; left: -2px;
+            width: 36px; height: 10px;
+            background: #c0392b;
+            border-radius: 4px 4px 0 0;
+        }
+        .pixel-body {
+            width: 32px; height: 28px;
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+        .g-body {
+            background: #2c3e7b;
+            box-shadow: 8px 0 #2c3e7b, 16px 0 #2c3e7b;
+        }
+        .g-body::after {
+            content: '';
+            display: block;
+            width: 100%; height: 4px;
+            background: #c9a96e;
+            margin-top: 12px;
+        }
+        .b-body {
+            background: #e74c8a;
+            box-shadow: 8px 0 #e74c8a, 16px 0 #e74c8a;
+        }
+        .b-body::after {
+            content: '';
+            display: block;
+            width: 100%; height: 6px;
+            background: #fff;
+            margin-top: 8px;
+            border-radius: 2px;
+        }
+        .pixel-legs {
+            width: 24px; height: 16px;
+            margin: 0 auto;
+            display: flex;
+            gap: 8px;
+        }
+        .pixel-legs::before,
+        .pixel-legs::after {
+            content: '';
+            width: 8px; height: 16px;
+            border-radius: 0 0 3px 3px;
+        }
+        .g-legs::before,
+        .g-legs::after { background: #1a1a2e; }
+        .b-legs::before,
+        .b-legs::after { background: #1a1a2e; }
+
+        .game-hearts {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 18px;
+            display: flex;
+            gap: 4px;
+        }
+        .game-hearts span.faded {
+            opacity: 0.2;
+            filter: grayscale(1);
+        }
+        .game-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.3);
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), #f1c40f);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 0 3px 3px 0;
+        }
+        .game-distance {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 12px;
+            color: var(--primary);
+            background: rgba(255,255,255,0.85);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+        .game-quiz {
+            margin-top: 10px;
+        }
+        .quiz-question {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 18px;
+            min-height: 50px;
+            line-height: 1.5;
+        }
+        .quiz-answers {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .quiz-btn {
+            padding: 14px 20px;
+            background: var(--light);
+            border: 2px solid #dce4f0;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text);
+        }
+        .quiz-btn:hover {
+            background: var(--accent);
+            border-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+        .quiz-btn.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        .quiz-btn.wrong {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        .quiz-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .quiz-btn.start-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: #fff;
+            border: none;
+            font-size: 18px;
+            padding: 16px;
+        }
+        .quiz-btn.start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(44, 62, 123, 0.3);
+        }
+        .game-result {
+            text-align: center;
+            padding: 30px 20px;
+        }
+        .result-icon {
+            font-size: 72px;
+            animation: pulse 1.5s infinite;
+            margin-bottom: 15px;
+        }
+        .result-text {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        .result-sub {
+            font-size: 15px;
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+        .replay-btn {
+            background: var(--primary) !important;
+            color: #fff !important;
+            border: none !important;
+            padding: 12px 40px !important;
+        }
+        .replay-btn:hover {
+            background: var(--primary-light) !important;
+        }
+
         /* ===== QR CODE ===== */
         #qrcode {
             background: var(--white);
@@ -1143,6 +1385,53 @@
     </div>
 </section>
 
+<!-- ===== MINI GAME ===== -->
+<section id="minigame">
+    <div class="container">
+        <div class="section-title">
+            <div class="sub">🎮 Game nhỏ</div>
+            <h2>Giải cứu cô dâu</h2>
+            <div class="line"></div>
+        </div>
+        <div class="game-wrapper animate-on-scroll">
+            <div class="game-scene" id="gameScene">
+                <!-- Pixel Characters -->
+                <div class="pixel-groom" id="pixelGroom">
+                    <div class="pixel-head g-head"></div>
+                    <div class="pixel-body g-body"></div>
+                    <div class="pixel-legs g-legs"></div>
+                </div>
+                <div class="pixel-bride" id="pixelBride">
+                    <div class="pixel-head b-head"></div>
+                    <div class="pixel-body b-body"></div>
+                    <div class="pixel-legs b-legs"></div>
+                </div>
+                <div class="game-hearts" id="gameHearts">
+                    <span>❤️</span><span>❤️</span><span>❤️</span>
+                </div>
+                <div class="game-progress">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="game-distance" id="gameDistance">🏃 Chú rể còn cách cô dâu 4 bước</div>
+            </div>
+
+            <div class="game-quiz" id="gameQuiz">
+                <div class="quiz-question" id="quizQuestion">Bạn có muốn giúp chú rể giải cứu cô dâu không?</div>
+                <div class="quiz-answers" id="quizAnswers">
+                    <button class="quiz-btn" onclick="startGame()">🎮 Bắt đầu!</button>
+                </div>
+            </div>
+
+            <div class="game-result" id="gameResult" style="display:none;">
+                <div class="result-icon">🎉</div>
+                <div class="result-text">Chúc mừng! Bạn đã giúp chú rể giải cứu cô dâu thành công!</div>
+                <p class="result-sub">Cảm ơn bạn đã đồng hành cùng chúng mình! 💞</p>
+                <button class="quiz-btn replay-btn" onclick="resetGame()">🔄 Chơi lại</button>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- ===== QR CODE ===== -->
 <section id="qrcode">
     <div class="container">
@@ -1631,6 +1920,160 @@
         guestbookEntries = samples;
         localStorage.setItem('wedding_guestbook', JSON.stringify(guestbookEntries));
         renderGuestbookFunc();
+    }
+
+    // ===== MINI GAME - RESCUE THE BRIDE =====
+    const quizData = [
+        {
+            question: '💍 Tên ở nhà cô dâu gì?',
+            answers: ['Oanh Anh', 'Ziu', 'Không có tên ở nhà', 'ZiuZiu'],
+            correct: 1
+        },
+        {
+            question: '🎂 Cô dâu sinh tháng mấy?',
+            answers: ['Tháng 3', 'Tháng 6', 'Tháng 11', 'Tháng 12'],
+            correct: 2
+        },
+        {
+            question: '🌍 Cô dâu và chú rể gặp nhau ở đâu?',
+            answers: ['Nơi làm việc', 'Ở trường học', 'Qua bạn bè', 'Trên mạng xã hội'],
+            correct: 0
+        },
+        {
+            question: '💑 Cô dâu thích màu gì nhất?',
+            answers: ['Đỏ', 'Hồng', 'Xanh dương', 'Tím'],
+            correct: 1
+        }
+    ];
+
+    let currentQuiz = 0;
+    let hearts = 3;
+    let gameActive = false;
+
+    function startGame() {
+        currentQuiz = 0;
+        hearts = 3;
+        gameActive = true;
+
+        document.querySelector('.pixel-groom').classList.remove('win');
+        document.getElementById('gameResult').style.display = 'none';
+        document.getElementById('gameQuiz').style.display = 'block';
+
+        // Reset hearts
+        document.querySelectorAll('.game-hearts span').forEach(h => h.classList.remove('faded'));
+        // Reset progress
+        document.getElementById('progressBar').style.width = '0%';
+        updateDistance(4 - currentQuiz);
+
+        showQuiz();
+    }
+
+    function showQuiz() {
+        if (currentQuiz >= quizData.length) {
+            winGame();
+            return;
+        }
+
+        const q = quizData[currentQuiz];
+        document.getElementById('quizQuestion').textContent = q.question;
+
+        const answersDiv = document.getElementById('quizAnswers');
+        answersDiv.innerHTML = '';
+
+        q.answers.forEach((answer, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'quiz-btn';
+            btn.textContent = answer;
+            btn.onclick = () => checkAnswer(idx);
+            answersDiv.appendChild(btn);
+        });
+
+        updateDistance(quizData.length - currentQuiz);
+    }
+
+    function checkAnswer(selected) {
+        const q = quizData[currentQuiz];
+        const btns = document.querySelectorAll('.quiz-answers .quiz-btn');
+
+        btns.forEach((btn, idx) => {
+            btn.disabled = true;
+            if (idx === q.correct) btn.classList.add('correct');
+            else if (idx === selected) btn.classList.add('wrong');
+        });
+
+        if (selected === q.correct) {
+            // Correct! Move groom forward
+            currentQuiz++;
+
+            // Update progress
+            const progress = (currentQuiz / quizData.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            updateDistance(quizData.length - currentQuiz);
+
+            setTimeout(() => {
+                if (currentQuiz >= quizData.length) {
+                    winGame();
+                } else {
+                    showQuiz();
+                }
+            }, 800);
+        } else {
+            // Wrong! Lose a heart
+            hearts--;
+            const heartSpans = document.querySelectorAll('.game-hearts span');
+            if (hearts >= 0 && hearts < heartSpans.length) {
+                heartSpans[hearts].classList.add('faded');
+            }
+
+            if (hearts <= 0) {
+                setTimeout(() => {
+                    loseGame();
+                }, 800);
+            } else {
+                setTimeout(() => {
+                    showQuiz();
+                }, 800);
+            }
+        }
+    }
+
+    function updateDistance(steps) {
+        const dist = document.getElementById('gameDistance');
+        if (steps <= 0) {
+            dist.textContent = '🎯 Chú rể đã đến bên cô dâu!';
+        } else {
+            dist.textContent = `🏃 Chú rể còn cách cô dâu ${steps} bước`;
+        }
+    }
+
+    function winGame() {
+        gameActive = false;
+        document.querySelector('.pixel-groom').classList.add('win');
+        document.getElementById('gameQuiz').style.display = 'none';
+        document.getElementById('gameResult').style.display = 'block';
+        document.getElementById('progressBar').style.width = '100%';
+        updateDistance(0);
+    }
+
+    function loseGame() {
+        gameActive = false;
+        document.getElementById('quizQuestion').textContent = '😢 Bạn đã thua! Chú rể cần thêm sự giúp đỡ...';
+        document.getElementById('quizAnswers').innerHTML = `
+            <button class="quiz-btn start-btn" onclick="resetGame()">🔄 Thử lại</button>
+        `;
+    }
+
+    function resetGame() {
+        currentQuiz = 0;
+        hearts = 3;
+        document.querySelector('.pixel-groom').classList.remove('win');
+        document.getElementById('gameResult').style.display = 'none';
+        document.getElementById('gameQuiz').style.display = 'block';
+        document.querySelectorAll('.game-hearts span').forEach(h => h.classList.remove('faded'));
+        document.getElementById('progressBar').style.width = '0%';
+        updateDistance(4);
+        showQuiz();
     }
 </script>
 </body>
