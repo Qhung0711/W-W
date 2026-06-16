@@ -533,47 +533,221 @@
         .qr-wrapper {
             text-align: center;
         }
+        .qr-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .qr-tab {
+            padding: 14px 30px;
+            background: var(--light);
+            border: 2px solid transparent;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-light);
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .qr-tab i {
+            margin-right: 8px;
+        }
+        .qr-tab:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+        .qr-tab.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+            box-shadow: 0 5px 20px rgba(44, 62, 123, 0.3);
+        }
+        .qr-display {
+            display: flex;
+            justify-content: center;
+            min-height: 320px;
+        }
+        .qr-image-wrapper {
+            text-align: center;
+            animation: fadeInUp 0.5s ease;
+        }
+        .qr-label {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
         .qr-wrapper .qr-placeholder {
-            width: 250px; height: 250px;
+            width: 250px;
+            height: 250px;
             margin: 0 auto;
             background: var(--light);
             border: 3px dashed var(--accent);
             border-radius: 20px;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             transition: all 0.3s;
         }
         .qr-wrapper .qr-placeholder i {
-            font-size: 60px; color: var(--accent); margin-bottom: 15px;
+            font-size: 60px;
+            color: var(--accent);
+            margin-bottom: 15px;
         }
         .qr-wrapper .qr-placeholder p {
-            font-size: 14px; color: var(--text-light);
+            font-size: 14px;
+            color: var(--text-light);
         }
         .qr-wrapper .qr-placeholder.has-qr {
             border: 3px solid var(--primary);
             padding: 15px;
+            width: auto;
+            height: auto;
+            min-width: 250px;
+            min-height: 250px;
         }
         .qr-wrapper .qr-placeholder.has-qr img {
-            max-width: 100%; border-radius: 10px;
+            max-width: 250px;
+            border-radius: 10px;
         }
         .qr-note {
             margin-top: 20px;
-            font-size: 14px; color: var(--text-light);
+            font-size: 14px;
+            color: var(--text-light);
         }
-        .qr-note i { color: var(--gold); margin-right: 5px; }
+        .qr-note i {
+            color: var(--gold);
+            margin-right: 5px;
+        }
         .qr-upload-btn {
             display: inline-block;
             padding: 10px 30px;
             background: var(--primary);
-            color: #fff; border: none; border-radius: 30px;
-            font-size: 14px; cursor: pointer;
-            margin-top: 15px; transition: all 0.3s;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
         }
         .qr-upload-btn:hover {
             background: var(--primary-light);
             transform: translateY(-2px);
         }
-        #qrFileInput { display: none; }
+        #qrGroomInput,
+        #qrBrideInput {
+            display: none;
+        }
+
+        /* ===== GUESTBOOK FORM ===== */
+        .guestbook-form-wrapper {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 5px 30px rgba(44, 62, 123, 0.08);
+        }
+        .guestbook-form-wrapper .form-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .guestbook-form-wrapper .form-title i {
+            color: var(--gold);
+            margin-right: 8px;
+        }
+        .guestbook-form-wrapper .form-group {
+            margin-bottom: 18px;
+        }
+        .guestbook-form-wrapper .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+        .guestbook-form-wrapper .form-group input,
+        .guestbook-form-wrapper .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e8edf5;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s;
+            background: var(--bg);
+            color: var(--text);
+        }
+        .guestbook-form-wrapper .form-group input:focus,
+        .guestbook-form-wrapper .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(44, 62, 123, 0.1);
+        }
+        .guestbook-form-wrapper .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .btn-guestbook {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .btn-guestbook:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(44, 62, 123, 0.3);
+        }
+        .btn-guestbook:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .guestbook-form-message {
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 500;
+            display: none;
+        }
+        .guestbook-form-message.success {
+            display: block;
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .guestbook-form-message.error {
+            display: block;
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .guestbook-form-message.loading {
+            display: block;
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
 
         /* ===== GUESTBOOK / STORYBOOK ===== */
         #guestbook {
@@ -834,14 +1008,6 @@
         <div class="timeline">
             <div class="timeline-item animate-on-scroll">
                 <div class="content">
-                    <div class="year">📅 2025</div>
-                    <h3>Gặp gỡ & Yêu thương</h3>
-                    <p>Chúng mình gặp nhau như một định mệnh. Những ngày đầu còn bỡ ngỡ, những tin nhắn ngập ngừng, và rồi tình yêu đến nhẹ nhàng nhưng sâu đậm.</p>
-                </div>
-                <div class="timeline-dot"></div>
-            </div>
-            <div class="timeline-item animate-on-scroll">
-                <div class="content">
                     <div class="year">💍 2026</div>
                     <h3>Lời cầu hôn</h3>
                     <p>Một buổi chiều lãng mạn, anh đã quỳ gối và ngỏ lời. Em nói "Yes" trong niềm hạnh phúc vỡ òa. Đó là khoảnh khắc đẹp nhất cuộc đời chúng mình.</p>
@@ -986,20 +1152,45 @@
             <div class="line"></div>
         </div>
         <div class="qr-wrapper animate-on-scroll">
-            <div class="qr-placeholder" id="qrPlaceholder">
-                <i class="fas fa-qrcode"></i>
-                <p>QR Code của bạn sẽ hiển thị ở đây</p>
+            <!-- Tabs chọn người -->
+            <div class="qr-tabs">
+                <button class="qr-tab active" data-person="groom" onclick="switchQR('groom')">
+                    <i class="fas fa-user-tie"></i> Chú Rể - Quốc Hưng
+                </button>
+                <button class="qr-tab" data-person="bride" onclick="switchQR('bride')">
+                    <i class="fas fa-user"></i> Cô Dâu - Thúy Oanh
+                </button>
             </div>
-            <div class="qr-note">
-                <i class="fas fa-cloud-upload-alt"></i>
-                Tải lên mã QR của bạn
+
+            <!-- Hiển thị QR được chọn -->
+            <div class="qr-display" id="qrDisplay">
+                <div class="qr-image-wrapper" id="qrGroomWrapper">
+                    <div class="qr-label">💙 Chú Rể - Quốc Hưng</div>
+                    <div class="qr-placeholder" id="qrGroomPlaceholder">
+                        <i class="fas fa-qrcode"></i>
+                        <p>Tải lên QR của chú rể</p>
+                    </div>
+                    <button class="qr-upload-btn" onclick="document.getElementById('qrGroomInput').click()">
+                        <i class="fas fa-upload"></i> Chọn ảnh QR
+                    </button>
+                    <input type="file" id="qrGroomInput" accept="image/*" data-target="groom">
+                </div>
+                <div class="qr-image-wrapper" id="qrBrideWrapper" style="display:none;">
+                    <div class="qr-label">💖 Cô Dâu - Thúy Oanh</div>
+                    <div class="qr-placeholder" id="qrBridePlaceholder">
+                        <i class="fas fa-qrcode"></i>
+                        <p>Tải lên QR của cô dâu</p>
+                    </div>
+                    <button class="qr-upload-btn" onclick="document.getElementById('qrBrideInput').click()">
+                        <i class="fas fa-upload"></i> Chọn ảnh QR
+                    </button>
+                    <input type="file" id="qrBrideInput" accept="image/*" data-target="bride">
+                </div>
             </div>
-            <button class="qr-upload-btn" onclick="document.getElementById('qrFileInput').click()">
-                <i class="fas fa-upload"></i> Upload QR
-            </button>
-            <input type="file" id="qrFileInput" accept="image/*">
-            <p class="qr-note" style="margin-top:10px;font-size:12px;">
-                (Sau này bạn có thể tải lên mã QR sau)
+
+            <p class="qr-note" style="margin-top:20px;">
+                <i class="fas fa-info-circle"></i> 
+                Click vào tab để chọn hiển thị QR của chú rể hoặc cô dâu. Tải ảnh QR lên sau.
             </p>
         </div>
     </div>
@@ -1013,6 +1204,34 @@
             <h2>Sổ lưu bút</h2>
             <div class="line"></div>
         </div>
+
+        <!-- Form nhập lưu bút trực tiếp -->
+        <div class="guestbook-form-wrapper animate-on-scroll">
+            <div class="form-title">
+                <i class="fas fa-feather-alt"></i> Viết lời chúc của bạn
+            </div>
+            <form id="guestbookForm">
+                <div class="form-group">
+                    <label for="gbName">👤 Họ và tên của bạn</label>
+                    <input type="text" id="gbName" name="gbName" placeholder="Nhập họ tên..." required>
+                </div>
+                <div class="form-group">
+                    <label for="gbMessage">💬 Lời nhắn / Lời chúc</label>
+                    <textarea id="gbMessage" name="gbMessage" placeholder="Viết lời chúc của bạn dành cho cô dâu chú rể..." rows="4" required></textarea>
+                </div>
+                <div class="form-group" style="margin-bottom:12px;">
+                    <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                        <input type="checkbox" id="gbAnonymous" style="width:auto;">
+                        <span>Gửi ẩn danh (không hiện tên)</span>
+                    </label>
+                </div>
+                <button type="submit" class="btn-guestbook" id="guestbookSubmitBtn">
+                    <i class="fas fa-pen-fancy"></i> Gửi lời chúc
+                </button>
+                <div class="guestbook-form-message" id="guestbookFormMessage"></div>
+            </form>
+        </div>
+
         <div class="storybook animate-on-scroll">
             <div class="book" id="guestbookBook">
                 <div class="book-empty" id="guestbookEmpty">
@@ -1189,23 +1408,36 @@
         if (e.key === 'ArrowRight') changePhoto(1);
     });
 
-    // ===== QR CODE UPLOAD =====
-    document.getElementById('qrFileInput').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (!file) return;
+    // ===== QR CODE - SWITCH TAB =====
+    function switchQR(person) {
+        // Update tabs
+        document.querySelectorAll('.qr-tab').forEach(t => t.classList.remove('active'));
+        document.querySelector(`.qr-tab[data-person="${person}"]`).classList.add('active');
 
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            const placeholder = document.getElementById('qrPlaceholder');
-            placeholder.classList.add('has-qr');
-            placeholder.innerHTML = `<img src="${event.target.result}" alt="QR Code">`;
-        };
-        reader.readAsDataURL(file);
-    });
+        // Show/hide wrappers
+        document.getElementById('qrGroomWrapper').style.display = person === 'groom' ? 'block' : 'none';
+        document.getElementById('qrBrideWrapper').style.display = person === 'bride' ? 'block' : 'none';
+    }
+
+    // ===== QR CODE - UPLOAD =====
+    function setupQRUpload(inputId, placeholderId) {
+        document.getElementById(inputId).addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const placeholder = document.getElementById(placeholderId);
+                placeholder.classList.add('has-qr');
+                placeholder.innerHTML = `<img src="${event.target.result}" alt="QR Code">`;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+    setupQRUpload('qrGroomInput', 'qrGroomPlaceholder');
+    setupQRUpload('qrBrideInput', 'qrBridePlaceholder');
 
     // ===== RSVP FORM =====
-    // Google Apps Script URL - Replace with your own Web App URL
-    const GOOGLE_SCRIPT_URL = ''; // Bạn cần tạo Google Apps Script và dán URL vào đây
+    const GOOGLE_SCRIPT_URL = ''; 
 
     document.getElementById('rsvpForm').addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -1230,32 +1462,23 @@
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang gửi...';
 
         try {
-            // Try to send to Google Sheets if URL is configured
             if (GOOGLE_SCRIPT_URL) {
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(formData)
                 });
             }
-
-            // Save locally as well for the guestbook
-            saveGuestbookEntry(formData);
-
+            saveGuestbookEntryFunc(formData);
             msg.className = 'form-message success';
             msg.textContent = '🎉 Cảm ơn bạn đã xác nhận! Chúng mình rất mong được đón tiếp bạn!';
-
-            // Add to guestbook immediately
-            addGuestbookPage(formData);
-
+            addGuestbookPageFunc(formData);
             this.reset();
             document.getElementById('guestCount').value = '1';
         } catch (error) {
-            // Still save locally even if Google Sheets fails
-            saveGuestbookEntry(formData);
-            addGuestbookPage(formData);
-
+            saveGuestbookEntryFunc(formData);
+            addGuestbookPageFunc(formData);
             msg.className = 'form-message success';
             msg.textContent = '🎉 Cảm ơn bạn! Thông tin của bạn đã được ghi nhận.';
             this.reset();
@@ -1266,38 +1489,28 @@
         }
     });
 
-    // ===== GUESTBOOK / STORYBOOK =====
+    // ===== GUESTBOOK - STORYBOOK =====
     let guestbookEntries = JSON.parse(localStorage.getItem('wedding_guestbook') || '[]');
     let currentPage = 0;
     const entriesPerPage = 1;
 
-    function saveGuestbookEntry(entry) {
-        guestbookEntries.unshift({
-            ...entry,
-            id: Date.now()
-        });
+    function saveGuestbookEntryFunc(entry) {
+        guestbookEntries.unshift({ ...entry, id: Date.now() });
         localStorage.setItem('wedding_guestbook', JSON.stringify(guestbookEntries));
     }
 
-    function addGuestbookPage(entry) {
-        const container = document.getElementById('guestbookPages');
-        const empty = document.getElementById('guestbookEmpty');
-        const nav = document.getElementById('bookNav');
-
-        empty.style.display = 'none';
-        nav.style.display = 'flex';
-
-        renderGuestbook();
-        // Go to first page
+    function addGuestbookPageFunc(entry) {
+        document.getElementById('guestbookEmpty').style.display = 'none';
+        document.getElementById('bookNav').style.display = 'flex';
+        renderGuestbookFunc();
         currentPage = 0;
-        showPage(currentPage);
+        showPageFunc(currentPage);
     }
 
-    function renderGuestbook() {
+    function renderGuestbookFunc() {
         const container = document.getElementById('guestbookPages');
         const empty = document.getElementById('guestbookEmpty');
         const nav = document.getElementById('bookNav');
-
         container.innerHTML = '';
 
         if (guestbookEntries.length === 0) {
@@ -1314,34 +1527,31 @@
             page.className = 'book-page';
             page.dataset.index = index;
 
-            const attendanceClass = entry.attendance && entry.attendance.includes('Có') ? 'yes' : 'no';
-            const attendanceLabel = entry.attendance || 'Chưa xác nhận';
+            const isYes = entry.attendance && entry.attendance.includes('Có');
+            const attClass = isYes ? 'yes' : (entry.attendance ? 'no' : '');
+            const attLabel = entry.attendance || 'Chúc mừng';
 
             page.innerHTML = `
-                <div class="guest-name">${escapeHtml(entry.name)}</div>
+                <div class="guest-name">${escapeHtmlFunc(entry.name)}</div>
                 <div class="guest-date">📅 ${entry.timestamp ? new Date(entry.timestamp).toLocaleDateString('vi-VN', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'Vừa xong'}</div>
-                <div class="guest-message">"${escapeHtml(entry.message || 'Chúc hai bạn trăm năm hạnh phúc! 💞')}"</div>
-                <div class="guest-attendance ${attendanceClass}">
-                    ${attendanceLabel === 'Có, tôi sẽ đến!' ? '🎉 Sẽ đến' : '😔 Rất tiếc'}
-                    ${entry.guest_count > 1 ? `(+${parseInt(entry.guest_count) - 1} người)` : ''}
-                </div>
+                <div class="guest-message">"${escapeHtmlFunc(entry.message || 'Chúc hai bạn trăm năm hạnh phúc! 💞')}"</div>
+                ${attClass ? `<div class="guest-attendance ${attClass}">
+                    ${isYes ? '🎉 Sẽ đến' : '😔 Rất tiếc'}
+                    ${entry.guest_count > 1 ? ` (+${parseInt(entry.guest_count) - 1} người)` : ''}
+                </div>` : ''}
                 <div class="page-number">— Trang ${index + 1} —</div>
             `;
             container.appendChild(page);
         });
 
         currentPage = 0;
-        showPage(0);
+        showPageFunc(0);
     }
 
-    function showPage(index) {
+    function showPageFunc(index) {
         const pages = document.querySelectorAll('.book-page');
         pages.forEach(p => p.classList.remove('active'));
-
-        if (pages[index]) {
-            pages[index].classList.add('active');
-        }
-
+        if (pages[index]) pages[index].classList.add('active');
         const total = pages.length;
         document.getElementById('pageInfo').textContent = `Trang ${index + 1} / ${total}`;
         document.getElementById('prevPageBtn').disabled = index === 0;
@@ -1352,30 +1562,75 @@
     function changePage(dir) {
         const pages = document.querySelectorAll('.book-page');
         const newIndex = currentPage + dir;
-        if (newIndex >= 0 && newIndex < pages.length) {
-            showPage(newIndex);
-        }
+        if (newIndex >= 0 && newIndex < pages.length) showPageFunc(newIndex);
     }
 
-    function escapeHtml(text) {
+    function escapeHtmlFunc(text) {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
     }
 
-    // Initial render guestbook
-    renderGuestbook();
+    // ===== GUESTBOOK - DIRECT FORM SUBMIT =====
+    document.getElementById('guestbookForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const btn = document.getElementById('guestbookSubmitBtn');
+        const msg = document.getElementById('guestbookFormMessage');
 
-    // ===== SEED SOME SAMPLE GUESTBOOK ENTRIES =====
+        const name = document.getElementById('gbName').value.trim();
+        const message = document.getElementById('gbMessage').value.trim();
+        const anonymous = document.getElementById('gbAnonymous').checked;
+
+        if (!name) {
+            msg.className = 'guestbook-form-message error';
+            msg.textContent = 'Vui lòng nhập họ tên!';
+            return;
+        }
+        if (!message) {
+            msg.className = 'guestbook-form-message error';
+            msg.textContent = 'Vui lòng nhập lời nhắn!';
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang gửi...';
+
+        const entry = {
+            name: anonymous ? 'Ẩn danh' : name,
+            attendance: '',
+            guest_count: 0,
+            message: message,
+            timestamp: new Date().toISOString()
+        };
+
+        saveGuestbookEntryFunc(entry);
+        addGuestbookPageFunc(entry);
+
+        msg.className = 'guestbook-form-message success';
+        msg.textContent = '💖 Cảm ơn lời chúc của bạn! Lời chúc đã được đăng lên sổ lưu bút!';
+
+        document.getElementById('guestbookForm').reset();
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-pen-fancy"></i> Gửi lời chúc';
+
+        setTimeout(() => {
+            msg.style.display = 'none';
+        }, 4000);
+    });
+
+    // Initial render
+    renderGuestbookFunc();
+
+    // Sample entries for demo
     if (guestbookEntries.length === 0) {
-        const sampleEntries = [
+        const samples = [
             { name: 'Nguyễn Văn A', attendance: 'Có, tôi sẽ đến!', guest_count: 2, message: 'Chúc mừng hai bạn! Mong rằng tình yêu của các bạn sẽ mãi mãi bền chặt và hạnh phúc. 🎉', timestamp: '2026-06-15T10:30:00.000Z', id: 1 },
             { name: 'Trần Thị B', attendance: 'Rất tiếc, tôi không thể đến', guest_count: 0, message: 'Rất tiếc vì không thể đến tham dự được. Chúc hai bạn trăm năm hạnh phúc, mãi mãi bên nhau! 💕', timestamp: '2026-06-14T15:20:00.000Z', id: 2 },
             { name: 'Lê Văn C', attendance: 'Có, tôi sẽ đến!', guest_count: 3, message: 'Hẹn gặp lại các bạn trong ngày vui! Chúc mọi điều tốt đẹp nhất sẽ đến với gia đình nhỏ của các bạn. 🌸', timestamp: '2026-06-13T09:15:00.000Z', id: 3 },
         ];
-        guestbookEntries = sampleEntries;
+        guestbookEntries = samples;
         localStorage.setItem('wedding_guestbook', JSON.stringify(guestbookEntries));
-        renderGuestbook();
+        renderGuestbookFunc();
     }
 </script>
 </body>
