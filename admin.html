@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Quốc Hưng & Thúy Oanh Wedding</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #f0f2f5;
+            color: #2c3e50;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        
+        /* ===== LOGIN ===== */
+        #loginScreen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #2c3e7b, #1a2a5e);
+        }
+        #loginScreen.hidden { display: none; }
+        .login-box {
+            background: #fff;
+            border-radius: 24px;
+            padding: 50px 40px;
+            width: 380px;
+            max-width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .login-box .icon { font-size: 50px; margin-bottom: 10px; }
+        .login-box h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: var(--primary, #2c3e7b);
+            margin-bottom: 5px;
+        }
+        .login-box p {
+            font-size: 13px;
+            color: #7a8a9e;
+            margin-bottom: 25px;
+        }
+        .pin-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .pin-inputs input {
+            width: 55px;
+            height: 65px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            border: 2px solid #e0e4ea;
+            border-radius: 14px;
+            outline: none;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .pin-inputs input:focus {
+            border-color: #2c3e7b;
+            box-shadow: 0 0 0 3px rgba(44,62,123,0.1);
+        }
+        .pin-inputs input.filled {
+            border-color: #2c3e7b;
+            background: #e8edf5;
+        }
+        .login-error {
+            font-size: 13px;
+            color: #dc3545;
+            min-height: 20px;
+            margin-bottom: 10px;
+        }
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #2c3e7b, #4a6fa5);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(44,62,123,0.3); }
+        .btn-login:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        /* ===== ADMIN PANEL ===== */
+        #adminPanel { display: none; }
+        #adminPanel.show { display: block; }
+        
+        .admin-header {
+            background: #2c3e7b;
+            padding: 18px 0;
+            color: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .admin-header .inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-header h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 24px;
+        }
+        .admin-header .admin-menu {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .admin-header .admin-menu a {
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            font-size: 13px;
+            padding: 6px 16px;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+        .admin-header .admin-menu a:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .admin-header .admin-menu .logout-btn {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s;
+        }
+        .admin-header .admin-menu .logout-btn:hover { background: rgba(255,255,255,0.25); }
+
+        .admin-body { padding: 30px 0; }
+
+        /* Tabs */
+        .admin-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .admin-tab {
+            padding: 12px 24px;
+            background: #fff;
+            border: 2px solid #e0e4ea;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #7a8a9e;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .admin-tab i { margin-right: 6px; }
+        .admin-tab:hover { border-color: #2c3e7b; color: #2c3e7b; }
+        .admin-tab.active { background: #2c3e7b; color: #fff; border-color: #2c3e7b; }
+
+        .admin-tab-content { display: none; }
+        .admin-tab-content.active { display: block; }
+
+        /* Cards */
+        .admin-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+            margin-bottom: 20px;
+        }
+        .admin-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            color: #2c3e7b;
+            margin-bottom: 20px;
+        }
+        .admin-card h3 i { color: #c9a96e; margin-right: 8px; }
+
+        /* Photo Management */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .photo-grid .photo-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            background: #f5f5f5;
+        }
+        .photo-grid .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .photo-grid .photo-item .del-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 28px;
+            height: 28px;
+            background: rgba(220,53,69,0.85);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            opacity: 0;
+        }
+        .photo-grid .photo-item:hover .del-btn { opacity: 1; }
+        .photo-grid .photo-item .del-btn:hover { background: #dc3545; transform: scale(1.1); }
+        .photo-grid .photo-item .photo-class {
+            position: absolute;
+            bottom: 6px;
+            left: 6px;
+            font-size: 10px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .photo-upload-area {
+            border: 2px dashed #d0d4da;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .photo-upload-area:hover { border-color: #2c3e7b; background: #f8f9ff; }
+        .photo-upload-area i { font-size: 40px; color: #c9a96e; margin-bottom: 10px; }
+        .photo-upload-area p { font-size: 14px; color: #7a8a9e; }
+        .photo-upload-area input { display: none; }
+
+        .photo-class-select {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .photo-class-select label {
+            padding: 6px 16px;
+            border: 2px solid #e0e4ea;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .photo-class-select label:hover { border-color: #2c3e7b; }
+        .photo-class-select input[type="radio"] { display: none; }
+        .photo-class-select input[type="radio"]:checked + label {
+            background: #2c3e7b;
+            color: #fff;
+            border-color: #2c3e7b;
+        }
+
+        /* QR Management */
+        .qr-admin-wrap {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .qr-admin-item {
+            text-align: center;
+            flex: 1;
+            min-width: 220px;
+        }
+        .qr-admin-item h4 {
+            font-size: 16px;
+            color: #2c3e7b;
+            margin-bottom: 12px;
+        }
+        .qr-admin-item .qr-preview {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 12px;
+            background: #f5f0ea;
+            border: 2px dashed #c9d8e8;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .qr-admin-item .qr-preview.loaded { border: 2px solid #2c3e7b; padding: 8px; width: auto; height: auto; }
+        .qr-admin-item .qr-preview.loaded img { max-width: 180px; border-radius: 8px; }
+        .qr-admin-item .qr-preview i { font-size: 40px; color: #c9d8e8; margin-bottom: 8px; }
+        .qr-admin-item .qr-preview p { font-size: 12px; color: #7a8a9e; }
+        .qr-upload-btn-admin {
+            padding: 8px 24px;
+            background: #2c3e7b;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .qr-upload-btn-admin:hover { background: #4a6fa5; transform: translateY(-2px); }
+
+        /* Messages */
+        .msg-list { display: flex; flex-direction: column; gap: 12px; }
+        .msg-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 18px;
+            background: #faf8f5;
+            border-radius: 14px;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        .msg-item.pending { border-color: #ffc107; }
+        .msg-item.approved { border-color: #28a745; background: #f0fff4; }
+        .msg-item .msg-content { flex: 1; }
+        .msg-item .msg-content .name { font-weight: 600; color: #2c3e7b; font-size: 15px; }
+        .msg-item .msg-content .date { font-size: 11px; color: #c9a96e; margin-bottom: 4px; }
+        .msg-item .msg-content .text { font-size: 13px; color: #555; line-height: 1.5; }
+        .msg-item .msg-actions { display: flex; gap: 6px; flex-shrink: 0; }
+        .msg-item .msg-actions button {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .msg-item .msg-actions .approve-btn { background: #28a745; color: #fff; }
+        .msg-item .msg-actions .approve-btn:hover { background: #218838; }
+        .msg-item .msg-actions .reject-btn { background: #dc3545; color: #fff; }
+        .msg-item .msg-actions .reject-btn:hover { background: #c82333; }
+        .msg-item .msg-actions .delete-btn { background: #6c757d; color: #fff; }
+        .msg-item .msg-actions .delete-btn:hover { background: #5a6268; }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 25px;
+        }
+        .stat-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 22px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+        }
+        .stat-card .num {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #2c3e7b;
+        }
+        .stat-card .label { font-size: 12px; color: #7a8a9e; margin-top: 4px; }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #7a8a9e;
+        }
+        .empty-state i { font-size: 48px; color: #c9d8e8; margin-bottom: 12px; }
+        .empty-state p { font-size: 14px; }
+
+        .success-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #28a745;
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            opacity: 0;
+            transition: all 0.4s;
+            z-index: 999;
+        }
+        .success-toast.show { opacity: 1; }
+
+        @media (max-width: 768px) {
+            .photo-grid { grid-template-columns: repeat(3, 1fr); }
+            .admin-tabs { gap: 6px; }
+            .admin-tab { font-size: 12px; padding: 8px 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== LOGIN SCREEN ===== -->
+<div id="loginScreen">
+    <div class="login-box">
+        <div class="icon">🔐</div>
+        <h2>Admin Wedding</h2>
+        <p>Quốc Hưng ❤️ Thúy Oanh</p>
+        <div class="pin-inputs" id="pinInputs">
+            <input type="text" maxlength="1" class="pin-digit" data-index="0" autofocus>
+            <input type="text" maxlength="1" class="pin-digit" data-index="1">
+            <input type="text" maxlength="1" class="pin-digit" data-index="2">
+            <input type="text" maxlength="1" class="pin-digit" data-index="3">
+        </div>
+        <div class="login-error" id="loginError"></div>
+        <button class="btn-login" id="loginBtn" onclick="checkLogin()">Đăng nhập</button>
+    </div>
+</div>
+
+<!-- ===== ADMIN PANEL ===== -->
+<div id="adminPanel">
+    <div class="admin-header">
+        <div class="inner">
+            <h1>💍 Admin - Hưng & Oanh</h1>
+            <div class="admin-menu">
+                <a href="index.html" target="_blank"><i class="fas fa-external-link-alt"></i> Xem Web</a>
+                <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Thoát</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-body container">
+        <!-- Stats -->
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="num" id="statPhotos">0</div>
+                <div class="label">📸 Ảnh Album</div>
+            </div>
+            <div class="stat-card">
+                <div class="num" id="statMessages">0</div>
+                <div class="label">📝 Lời nhắn</div>
+            </div>
+            <div class="stat-card">
+                <div class="num" id="statApproved">0</div>
+                <div class="label">✅ Đã duyệt</div>
+            </div>
+            <div class="stat-card">
+                <div class="num" id="statPending">0</div>
+                <div class="label">⏳ Chờ duyệt</div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="admin-tabs">
+            <button class="admin-tab active" data-tab="photos" onclick="switchAdminTab('photos')">
+                <i class="fas fa-images"></i> Album ảnh
+            </button>
+            <button class="admin-tab" data-tab="qr" onclick="switchAdminTab('qr')">
+                <i class="fas fa-qrcode"></i> Mã QR
+            </button>
+            <button class="admin-tab" data-tab="messages" onclick="switchAdminTab('messages')">
+                <i class="fas fa-envelope-open-text"></i> Lời nhắn
+            </button>
+        </div>
+
+        <!-- TAB: Photos -->
+        <div class="admin-tab-content active" id="tabPhotos">
+            <div class="admin-card">
+                <h3><i class="fas fa-images"></i> Album ảnh cưới</h3>
+                <div class="photo-grid" id="photoGrid"></div>
+                <div class="photo-upload-area" onclick="document.getElementById('photoInput').click()">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Click hoặc kéo thả ảnh vào đây để thêm vào album</p>
+                    <div class="photo-class-select">
+                        <input type="radio" name="photoClass" id="pcNormal" value="" checked>
+                        <label for="pcNormal">🖼 Thường</label>
+                        <input type="radio" name="photoClass" id="pcTall" value="tall">
+                        <label for="pcTall">📐 Cao</label>
+                        <input type="radio" name="photoClass" id="pcWide" value="wide">
+                        <label for="pcWide">📐 Rộng</label>
+                        <input type="radio" name="photoClass" id="pcBig" value="big">
+                        <label for="pcBig">📐 To</label>
+                    </div>
+                    <input type="file" id="photoInput" accept="image/*" multiple>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: QR -->
+        <div class="admin-tab-content" id="tabQR">
+            <div class="admin-card">
+                <h3><i class="fas fa-qrcode"></i> Mã QR</h3>
+                <div class="qr-admin-wrap">
+                    <div class="qr-admin-item">
+                        <h4>💙 Chú Rể - Quốc Hưng</h4>
+                        <div class="qr-preview" id="adminQrGroomPreview">
+                            <i class="fas fa-qrcode"></i>
+                            <p>Chưa có QR</p>
+                        </div>
+                        <button class="qr-upload-btn-admin" onclick="document.getElementById('adminQrGroomInput').click()">
+                            <i class="fas fa-upload"></i> Tải lên QR
+                        </button>
+                        <input type="file" id="adminQrGroomInput" accept="image/*" style="display:none">
+                    </div>
+                    <div class="qr-admin-item">
+                        <h4>💖 Cô Dâu - Thúy Oanh</h4>
+                        <div class="qr-preview" id="adminQrBridePreview">
+                            <i class="fas fa-qrcode"></i>
+                            <p>Chưa có QR</p>
+                        </div>
+                        <button class="qr-upload-btn-admin" onclick="document.getElementById('adminQrBrideInput').click()">
+                            <i class="fas fa-upload"></i> Tải lên QR
+                        </button>
+                        <input type="file" id="adminQrBrideInput" accept="image/*" style="display:none">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: Messages -->
+        <div class="admin-tab-content" id="tabMessages">
+            <div class="admin-card">
+                <h3><i class="fas fa-envelope-open-text"></i> Lời nhắn từ khách</h3>
+                <div id="messagesList"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="success-toast" id="successToast">✅ Thành công!</div>
+
+<script>
+    // ===== PIN LOGIN =====
+    const CORRECT_PIN = '1507';
+    let pinDigits = ['','','',''];
+
+    document.querySelectorAll('.pin-digit').forEach(input => {
+        input.addEventListener('input', function() {
+            const idx = parseInt(this.dataset.index);
+            pinDigits[idx] = this.value;
+            if (this.value) this.classList.add('filled');
+            else this.classList.remove('filled');
+            
+            if (this.value && idx < 3) {
+                document.querySelector(`.pin-digit[data-index="${idx+1}"]`).focus();
+            }
+            if (idx === 3 && this.value) {
+                checkLogin();
+            }
+            document.getElementById('loginError').textContent = '';
+        });
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Backspace' && !this.value) {
+                const idx = parseInt(this.dataset.index);
+                if (idx > 0) {
+                    const prev = document.querySelector(`.pin-digit[data-index="${idx-1}"]`);
+                    prev.value = '';
+                    prev.classList.remove('filled');
+                    pinDigits[idx-1] = '';
+                    prev.focus();
+                }
+            }
+        });
+    });
+
+    function checkLogin() {
+        const pin = pinDigits.join('');
+        if (pin === CORRECT_PIN) {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('adminPanel').classList.add('show');
+            loadAllData();
+            return true;
+        }
+        document.getElementById('loginError').textContent = '❌ Mã PIN không đúng! Thử lại.';
+        document.querySelectorAll('.pin-digit').forEach(inp => {
+            inp.value = '';
+            inp.classList.remove('filled');
+        });
+        pinDigits = ['','','',''];
+        document.querySelector('.pin-digit[data-index="0"]').focus();
+        return false;
+    }
+
+    // Allow pressing Enter on last digit
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') checkLogin();
+    });
+
+    function logout() {
+        document.getElementById('adminPanel').classList.remove('show');
+        document.getElementById('loginScreen').classList.remove('hidden');
+        document.querySelectorAll('.pin-digit').forEach(inp => {
+            inp.value = '';
+            inp.classList.remove('filled');
+        });
+        pinDigits = ['','','',''];
+        document.querySelector('.pin-digit[data-index="0"]').focus();
+    }
+
+    // ===== TAB SWITCHING =====
+    function switchAdminTab(tab) {
+        document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+        document.querySelector(`.admin-tab[data-tab="${tab}"]`).classList.add('active');
+        document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove('active'));
+        document.getElementById(`tab${tab.charAt(0).toUpperCase() + tab.slice(1)}`).classList.add('active');
+    }
+
+    // ===== DATA MANAGEMENT =====
+    function getPhotos() {
+        return JSON.parse(localStorage.getItem('wedding_photos') || '[]');
+    }
+    function savePhotos(photos) {
+        localStorage.setItem('wedding_photos', JSON.stringify(photos));
+    }
+    function getMessages() {
+        return JSON.parse(localStorage.getItem('wedding_guestbook') || '[]');
+    }
+    function saveMessages(msgs) {
+        localStorage.setItem('wedding_guestbook', JSON.stringify(msgs));
+    }
+    function getQR(person) {
+        return localStorage.getItem(`wedding_qr_${person}`) || '';
+    }
+    function saveQR(person, data) {
+        localStorage.setItem(`wedding_qr_${person}`, data);
+    }
+
+    // ===== LOAD ALL =====
+    function loadAllData() {
+        loadPhotos();
+        loadQRAdmin();
+        loadMessages();
+        updateStats();
+    }
+
+    // ===== PHOTOS =====
+    function loadPhotos() {
+        const grid = document.getElementById('photoGrid');
+        const photos = getPhotos();
+        grid.innerHTML = '';
+        
+        if (photos.length === 0) {
+            grid.innerHTML = '<div class="empty-state"><i class="fas fa-images"></i><p>Chưa có ảnh nào. Tải lên ảnh đầu tiên!</p></div>';
+            return;
+        }
+        
+        photos.forEach((photo, idx) => {
+            const div = document.createElement('div');
+            div.className = 'photo-item';
+            div.innerHTML = `
+                <img src="${photo.src}" alt="${photo.title}">
+                <button class="del-btn" onclick="deletePhoto(${idx})">✕</button>
+                <span class="photo-class">${photo.cls || 'Thường'}</span>
+            `;
+            grid.appendChild(div);
+        });
+        updateStats();
+    }
+
+    function deletePhoto(idx) {
+        if (!confirm('Xóa ảnh này khỏi album?')) return;
+        const photos = getPhotos();
+        photos.splice(idx, 1);
+        savePhotos(photos);
+        loadPhotos();
+        showToast('🗑 Đã xóa ảnh!');
+    }
+
+    document.getElementById('photoInput').addEventListener('change', function(e) {
+        const files = e.target.files;
+        if (!files.length) return;
+        
+        const cls = document.querySelector('input[name="photoClass"]:checked')?.value || '';
+        const photos = getPhotos();
+        let loaded = 0;
+        
+        Array.from(files).forEach((file, idx) => {
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                photos.push({
+                    src: ev.target.result,
+                    title: `Ảnh ${photos.length + 1}`,
+                    desc: 'Khoảnh khắc đẹp',
+                    cls: cls
+                });
+                loaded++;
+                if (loaded === files.length) {
+                    savePhotos(photos);
+                    loadPhotos();
+                    showToast(`✅ Đã thêm ${files.length} ảnh!`);
+                    document.getElementById('photoInput').value = '';
+                }
+            };
+            reader.readAsDataURL(file);
+        });
+    });
+
+    // ===== QR =====
+    function loadQRAdmin() {
+        const groomQR = getQR('groom');
+        const brideQR = getQR('bride');
+        
+        const gp = document.getElementById('adminQrGroomPreview');
+        const bp = document.getElementById('adminQrBridePreview');
+        
+        if (groomQR) {
+            gp.classList.add('loaded');
+            gp.innerHTML = `<img src="${groomQR}" alt="QR Groom">`;
+        } else {
+            gp.classList.remove('loaded');
+            gp.innerHTML = '<i class="fas fa-qrcode"></i><p>Chưa có QR</p>';
+        }
+        
+        if (brideQR) {
+            bp.classList.add('loaded');
+            bp.innerHTML = `<img src="${brideQR}" alt="QR Bride">`;
+        } else {
+            bp.classList.remove('loaded');
+            bp.innerHTML = '<i class="fas fa-qrcode"></i><p>Chưa có QR</p>';
+        }
+    }
+
+    function setupAdminQRUpload(inputId, person) {
+        document.getElementById(inputId).addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                saveQR(person, ev.target.result);
+                loadQRAdmin();
+                showToast(`✅ Đã lưu QR ${person === 'groom' ? 'chú rể' : 'cô dâu'}!`);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+    setupAdminQRUpload('adminQrGroomInput', 'groom');
+    setupAdminQRUpload('adminQrBrideInput', 'bride');
+
+    // ===== MESSAGES =====
+    function loadMessages() {
+        const container = document.getElementById('messagesList');
+        const msgs = getMessages();
+        
+        if (msgs.length === 0) {
+            container.innerHTML = '<div class="empty-state"><i class="fas fa-envelope-open-text"></i><p>Chưa có lời nhắn nào.</p></div>';
+            return;
+        }
+        
+        container.innerHTML = '<div class="msg-list"></div>';
+        const list = container.querySelector('.msg-list');
+        
+        msgs.forEach((msg, idx) => {
+            const isApproved = msg.approved === true;
+            const div = document.createElement('div');
+            div.className = `msg-item ${isApproved ? 'approved' : 'pending'}`;
+            div.innerHTML = `
+                <div class="msg-content">
+                    <div class="name">${escHtml(msg.name)}</div>
+                    <div class="date">📅 ${msg.timestamp ? new Date(msg.timestamp).toLocaleDateString('vi-VN', {year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'}) : ''}</div>
+                    <div class="text">${escHtml(msg.message || '')}</div>
+                    ${msg.attendance ? `<div style="font-size:11px;color:#7a8a9e;margin-top:4px;">📌 ${msg.attendance}${msg.guest_count > 1 ? ` (+${parseInt(msg.guest_count)-1} người)` : ''}</div>` : ''}
+                    <div style="font-size:10px;color:#999;margin-top:4px;">Trạng thái: ${isApproved ? '✅ Đã duyệt' : '⏳ Chờ duyệt'}</div>
+                </div>
+                <div class="msg-actions">
+                    ${!isApproved ? `<button class="approve-btn" onclick="approveMessage(${idx})">✅ Duyệt</button>` : ''}
+                    <button class="delete-btn" onclick="deleteMessage(${idx})">🗑 Xóa</button>
+                </div>
+            `;
+            list.appendChild(div);
+        });
+        updateStats();
+    }
+
+    function approveMessage(idx) {
+        const msgs = getMessages();
+        if (msgs[idx]) {
+            msgs[idx].approved = true;
+            saveMessages(msgs);
+            loadMessages();
+            showToast('✅ Đã duyệt lời nhắn!');
+        }
+    }
+
+    function deleteMessage(idx) {
+        if (!confirm('Xóa lời nhắn này?')) return;
+        const msgs = getMessages();
+        msgs.splice(idx, 1);
+        saveMessages(msgs);
+        loadMessages();
+        showToast('🗑 Đã xóa lời nhắn!');
+    }
+
+    // ===== STATS =====
+    function updateStats() {
+        const photos = getPhotos();
+        const msgs = getMessages();
+        const approved = msgs.filter(m => m.approved === true).length;
+        const pending = msgs.filter(m => m.approved !== true).length;
+        
+        document.getElementById('statPhotos').textContent = photos.length;
+        document.getElementById('statMessages').textContent = msgs.length;
+        document.getElementById('statApproved').textContent = approved;
+        document.getElementById('statPending').textContent = pending;
+    }
+
+    // ===== TOAST =====
+    function showToast(text) {
+        const toast = document.getElementById('successToast');
+        toast.textContent = text;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    function escHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // Focus first pin input
+    document.querySelector('.pin-digit[data-index="0"]').focus();
+</script>
+</body>
+</html>

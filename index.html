@@ -1857,47 +1857,62 @@
 
     animateElements.forEach(el => observer.observe(el));
 
-    // ===== GALLERY / ALBUM =====
-    // Sample photos - replace with your actual wedding photos
-    const samplePhotos = [
-        { src: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=500&h=600&fit=crop', title: 'Khoảnh khắc đẹp', desc: 'Ngày yêu thương', cls: 'tall' },
-        { src: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600&h=400&fit=crop', title: 'Hạnh phúc', desc: 'Bên nhau trọn đời', cls: '' },
-        { src: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=400&h=500&fit=crop', title: 'Lãng mạn', desc: 'Ngọt ngào', cls: '' },
-        { src: 'https://images.unsplash.com/photo-1529636798458-92182e662485?w=600&h=600&fit=crop', title: 'Tình yêu', desc: 'Mãi mãi bên nhau', cls: 'big' },
-        { src: 'https://images.unsplash.com/photo-1510076857177-7470076d4098?w=500&h=400&fit=crop', title: 'Kỷ niệm', desc: 'Ngày đầu gặp gỡ', cls: '' },
-        { src: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=500&h=700&fit=crop', title: 'Duyên số', desc: 'Định mệnh', cls: 'tall' },
-        { src: 'https://images.unsplash.com/photo-1519741347686-c1e0aadf4611?w=600&h=400&fit=crop', title: 'Cảm xúc', desc: 'Ngày trọng đại', cls: 'wide' },
-        { src: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=400&h=500&fit=crop', title: 'Hoa và nụ cười', desc: 'Rạng rỡ', cls: '' },
-        { src: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=500&h=500&fit=crop', title: 'Bên nhau', desc: 'Trọn đời', cls: '' },
-        { src: 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=500&h=350&fit=crop', title: 'Hạnh phúc đôi lứa', desc: 'Yêu thương', cls: '' },
-    ];
-
+    // ===== GALLERY / ALBUM - Load from admin =====
     let currentPhotoIndex = 0;
     let photoList = [];
 
-    function renderGallery(photos) {
+    function getStoredPhotos() {
+        try {
+            const stored = localStorage.getItem('wedding_photos');
+            return stored ? JSON.parse(stored) : [];
+        } catch(e) { return []; }
+    }
+
+    function renderGallery() {
+        const photos = getStoredPhotos();
         const grid = document.getElementById('galleryGrid');
         grid.innerHTML = '';
+        
+        if (photos.length === 0) {
+            // Show sample photos as placeholder
+            const samplePhotos = [
+                { src: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=500&h=600&fit=crop', title: 'Khoảnh khắc đẹp', desc: 'Ngày yêu thương', cls: 'tall' },
+                { src: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600&h=400&fit=crop', title: 'Hạnh phúc', desc: 'Bên nhau trọn đời', cls: '' },
+                { src: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=400&h=500&fit=crop', title: 'Lãng mạn', desc: 'Ngọt ngào', cls: '' },
+                { src: 'https://images.unsplash.com/photo-1529636798458-92182e662485?w=600&h=600&fit=crop', title: 'Tình yêu', desc: 'Mãi mãi bên nhau', cls: 'big' },
+                { src: 'https://images.unsplash.com/photo-1510076857177-7470076d4098?w=500&h=400&fit=crop', title: 'Kỷ niệm', desc: 'Ngày đầu gặp gỡ', cls: '' },
+                { src: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=500&h=700&fit=crop', title: 'Duyên số', desc: 'Định mệnh', cls: 'tall' },
+                { src: 'https://images.unsplash.com/photo-1519741347686-c1e0aadf4611?w=600&h=400&fit=crop', title: 'Cảm xúc', desc: 'Ngày trọng đại', cls: 'wide' },
+                { src: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=400&h=500&fit=crop', title: 'Hoa và nụ cười', desc: 'Rạng rỡ', cls: '' },
+                { src: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=500&h=500&fit=crop', title: 'Bên nhau', desc: 'Trọn đời', cls: '' },
+                { src: 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=500&h=350&fit=crop', title: 'Hạnh phúc đôi lứa', desc: 'Yêu thương', cls: '' },
+            ];
+            photoList = samplePhotos;
+            samplePhotos.forEach((photo, index) => {
+                const item = document.createElement('div');
+                item.className = `gallery-item ${photo.cls || ''}`;
+                item.style.background = `url(${photo.src}) center/cover no-repeat`;
+                item.style.minHeight = photo.cls === 'tall' ? '400px' : photo.cls === 'big' ? '500px' : photo.cls === 'wide' ? '300px' : '280px';
+                item.innerHTML = `<div class="overlay"><h4>${photo.title}</h4><p>${photo.desc}</p></div>`;
+                item.addEventListener('click', () => openLightbox(index));
+                grid.appendChild(item);
+            });
+            return;
+        }
+        
         photoList = photos;
-
         photos.forEach((photo, index) => {
             const item = document.createElement('div');
             item.className = `gallery-item ${photo.cls || ''}`;
             item.style.background = `url(${photo.src}) center/cover no-repeat`;
             item.style.minHeight = photo.cls === 'tall' ? '400px' : photo.cls === 'big' ? '500px' : photo.cls === 'wide' ? '300px' : '280px';
-            item.innerHTML = `
-                <img src="${photo.src}" alt="${photo.title}" loading="lazy" style="display:none;">
-                <div class="overlay">
-                    <h4>${photo.title}</h4>
-                    <p>${photo.desc}</p>
-                </div>
-            `;
+            item.innerHTML = `<div class="overlay"><h4>${photo.title || 'Khoảnh khắc'}</h4><p>${photo.desc || 'Đẹp'}</p></div>`;
             item.addEventListener('click', () => openLightbox(index));
             grid.appendChild(item);
         });
     }
 
-    renderGallery(samplePhotos);
+    renderGallery();
 
     // ===== LIGHTBOX =====
     function openLightbox(index) {
@@ -1931,31 +1946,49 @@
 
     // ===== QR CODE - SWITCH TAB =====
     function switchQR(person) {
-        // Update tabs
         document.querySelectorAll('.qr-tab').forEach(t => t.classList.remove('active'));
         document.querySelector(`.qr-tab[data-person="${person}"]`).classList.add('active');
-
-        // Show/hide wrappers
         document.getElementById('qrGroomWrapper').style.display = person === 'groom' ? 'block' : 'none';
         document.getElementById('qrBrideWrapper').style.display = person === 'bride' ? 'block' : 'none';
     }
 
-    // ===== QR CODE - UPLOAD =====
-    function setupQRUpload(inputId, placeholderId) {
+    // ===== QR CODE - Load from admin localStorage =====
+    function loadQRFromStorage() {
+        const groomQR = localStorage.getItem('wedding_qr_groom');
+        const brideQR = localStorage.getItem('wedding_qr_bride');
+        
+        if (groomQR) {
+            const ph = document.getElementById('qrGroomPlaceholder');
+            ph.classList.add('has-qr');
+            ph.innerHTML = `<img src="${groomQR}" alt="QR Chú rể">`;
+        }
+        if (brideQR) {
+            const ph = document.getElementById('qrBridePlaceholder');
+            ph.classList.add('has-qr');
+            ph.innerHTML = `<img src="${brideQR}" alt="QR Cô dâu">`;
+        }
+    }
+    loadQRFromStorage();
+
+    // ===== QR CODE - UPLOAD (also saves to localStorage for admin sync) =====
+    function setupQRUpload(inputId, placeholderId, storageKey) {
         document.getElementById(inputId).addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (!file) return;
             const reader = new FileReader();
             reader.onload = function(event) {
+                const data = event.target.result;
                 const placeholder = document.getElementById(placeholderId);
                 placeholder.classList.add('has-qr');
-                placeholder.innerHTML = `<img src="${event.target.result}" alt="QR Code">`;
+                placeholder.innerHTML = `<img src="${data}" alt="QR Code">`;
+                // Also save to localStorage so admin can see
+                if (storageKey) localStorage.setItem(storageKey, data);
             };
             reader.readAsDataURL(file);
         });
     }
-    setupQRUpload('qrGroomInput', 'qrGroomPlaceholder');
-    setupQRUpload('qrBrideInput', 'qrBridePlaceholder');
+    setupQRUpload('qrGroomInput', 'qrGroomPlaceholder', 'wedding_qr_groom');
+    setupQRUpload('qrBrideInput', 'qrBridePlaceholder', 'wedding_qr_bride');
 
     // ===== RSVP FORM =====
     const GOOGLE_SCRIPT_URL = ''; 
@@ -2158,7 +2191,7 @@
     const quizData = [
         {
             question: '💍 Tên ở nhà cô dâu gì?',
-            answers: ['Oanh Anh', 'Ziu', 'Không có tên ở nhà', 'ZiuZiu'],
+            answers: ['Oanh Anh', 'ZiuZiu', 'Không có tên ở nhà', 'Ziu'],
             correct: 1
         },
         {
